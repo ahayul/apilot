@@ -828,7 +828,7 @@ class LongitudinalMpc:
     if self.xState in [XState.lead, XState.cruise] or (v_ego_kph > 30.0 and (model_x > 60.0 and abs(y[-1])<2.0)):
       self.e2ePaused = False
     if self.e2ePaused:
-      self.trafficeState |= 100  #prevent Event
+      self.trafficState |= 100  #prevent Event
 
     if controls.myDrivingMode == 4 or self.e2ePaused: #고속모드 또는 신호감지 일시정지: 신호정지 사용안함.
       self.xState = XState.cruise
