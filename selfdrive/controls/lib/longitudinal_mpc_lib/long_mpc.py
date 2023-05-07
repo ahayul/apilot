@@ -750,7 +750,7 @@ class LongitudinalMpc:
     elif self.xState == XState.e2eCruise:
       if carstate.gasPressed:
         self.e2ePaused = True
-      if model_x > 150.0 or self.e2ePaused:
+      if model_x > 100.0 or self.e2ePaused:
         model_x = 1000.0
       #elif self.trafficStopModelSpeed:
       #  v_cruise = v[0]
