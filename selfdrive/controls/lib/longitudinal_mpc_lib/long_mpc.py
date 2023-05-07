@@ -473,7 +473,7 @@ class LongitudinalMpc:
         #else:
         #  self.applyCruiseGap = int(interp(radarstate.leadOne.vRel*3.6, [0, 10.0], [self.applyCruiseGap, 1]))
 
-  def update_apilot(self, controls, model, v_ego, v_cruise):
+  def update_apilot(self, controls, carstate, model, v_ego, v_cruise):
     model_x = model.position.x[-1]
     y = model.position.y
     v = model.velocity.x
@@ -667,7 +667,7 @@ class LongitudinalMpc:
     if self.mode == 'acc':
       self.params[:,5] = self.leadDangerFactor #LEAD_DANGER_FACTOR
 
-      v_cruise, stop_x = self.update_apilot(controls, model, v_ego, v_cruise)
+      v_cruise, stop_x = self.update_apilot(controls, carstate, model, v_ego, v_cruise)
 
       x2 = stop_x * np.ones(N+1) + self.trafficStopDistanceAdjust
 
