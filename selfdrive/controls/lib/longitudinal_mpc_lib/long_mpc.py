@@ -252,6 +252,7 @@ class LongitudinalMpc:
     self.applyCruiseGap = 1.
     self.applyModelDistOrder = 32
     self.fakeCruiseDistance = 0.0
+    self.stopDist = 0.0
 
     self.t_follow = T_FOLLOW
     self.comfort_brake = COMFORT_BRAKE
