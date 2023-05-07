@@ -117,9 +117,7 @@ class CruiseHelper:
     self.autoResumeFromBrakeCarSpeed = float(int(Params().get("AutoResumeFromBrakeCarSpeed", encoding="utf8")))
     self.autoResumeFromBrakeReleaseTrafficSign  = Params().get_bool("AutoResumeFromBrakeReleaseTrafficSign")
     self.longControlActiveSound = int(Params().get("LongControlActiveSound"))
-    #self.accelLimitEcoSpeed = float(int(Params().get("AccelLimitEcoSpeed", encoding="utf8")))
     self.autoSpeedUptoRoadSpeedLimit = float(int(Params().get("AutoSpeedUptoRoadSpeedLimit", encoding="utf8"))) / 100.
-    #self.accelLimitConfusedModel = int(Params().get("AccelLimitConfusedModel"))
     self.autoSpeedAdjustWithLeadCar = float(int(Params().get("AutoSpeedAdjustWithLeadCar", encoding="utf8"))) / 1.
     self.cruiseButtonMode = int(Params().get("CruiseButtonMode"))
     self.gapButtonMode = int(Params().get("GapButtonMode"))
@@ -161,10 +159,8 @@ class CruiseHelper:
         self.autoResumeFromBrakeReleaseTrafficSign  = Params().get_bool("AutoResumeFromBrakeReleaseTrafficSign")
         self.longControlActiveSound = int(Params().get("LongControlActiveSound"))
       elif self.update_params_count == 8:
-        #self.accelLimitEcoSpeed = float(int(Params().get("AccelLimitEcoSpeed", encoding="utf8")))
         self.autoSpeedUptoRoadSpeedLimit = float(int(Params().get("AutoSpeedUptoRoadSpeedLimit", encoding="utf8"))) / 100.
       elif self.update_params_count == 9:
-        #self.accelLimitConfusedModel = int(Params().get("AccelLimitConfusedModel"))
         self.autoSpeedAdjustWithLeadCar = float(int(Params().get("AutoSpeedAdjustWithLeadCar", encoding="utf8"))) / 1.
       elif self.update_params_count == 10:
         self.cruiseButtonMode = int(Params().get("CruiseButtonMode"))

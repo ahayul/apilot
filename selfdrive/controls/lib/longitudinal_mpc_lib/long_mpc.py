@@ -236,7 +236,6 @@ class LongitudinalMpc:
     self.applyLongDynamicCost = False
     self.trafficStopAccel = 1.
     self.trafficStopModelSpeed = True
-    self.e2eDecelSpeed = 0
     self.applyDynamicTFollow = 1.0
     self.applyDynamicTFollowApart = 1.0
     self.applyDynamicTFollowDecel = 1.0
@@ -577,7 +576,6 @@ class LongitudinalMpc:
       self.trafficStopModelSpeed = Params().get_bool("TrafficStopModelSpeed")
       self.stopDistance = float(int(Params().get("StopDistance", encoding="utf8"))) / 100.
     elif self.lo_timer == 100:
-      self.e2eDecelSpeed = float(int(Params().get("E2eDecelSpeed", encoding="utf8")))
       self.applyDynamicTFollow = float(int(Params().get("ApplyDynamicTFollow", encoding="utf8"))) / 100.
     elif self.lo_timer == 120:
       self.applyDynamicTFollowApart = float(int(Params().get("ApplyDynamicTFollowApart", encoding="utf8"))) / 100.
@@ -751,7 +749,7 @@ class LongitudinalMpc:
     elif self.xState == XState.e2eCruise:
       if carstate.gasPressed:
         self.e2ePaused = True
-      if model_x > 150.0 or self.e2ePaused or v_ego_kph > self.e2eDecelSpeed:                # 속도가 빠른경우 cruise_obstacle값보다 model_x값이 적어 속도증가(약80키로전후)를 차단함~
+      if model_x > 150.0 or self.e2ePaused:
         model_x = 1000.0
       #elif self.trafficStopModelSpeed:
       #  v_cruise = v[0]
@@ -770,19 +768,21 @@ class LongitudinalMpc:
       if False: #self.trafficStopModelSpeed:
         v_cruise = v[0]
 
+      if controls.longActiveUser > 0 and self.longActiveUser <= 0:  # longActive된경우
+        stop_dist = v_ego * v_ego / (2.3 * 2) # 2.3m/s^2 으로 감속할경우 필요한 거리.
+        if model_x < stop_dist:  #서야할 거리가 짧은경우
+          self.stopDist = stop_dist
+
     self.comfort_brake *= self.mySafeModeFactor
     self.longActiveUser = controls.longActiveUser
     self.cruiseButtonCounter = controls.cruiseButtonCounter
 
     stop_x = model_x
-    # 급격히 정지하는 걸 막아보자~ 시험.
-    #if self.xState == XState.e2eStop and model_x < 3.0: # 신호정지이고 3M이내이면.. 급정거... 최소거리확보해야할... test
-    #  stop_x = max(v_ego * v_ego / (1.0 * 2), model_x)  # -1 m/s^2으로 감속할때 정지거리..
 
-    # return 값..
-    # stop_x, v_cruise, fakeCruiseDistance
-    # self.t_follow, self.comfort_brake, self.fakeCruiseDistance
-    return v_cruise, stop_x
+    self.stopDist -= (v_ego * DT_MDL)
+    if self.stopDist < 0:
+      self.stopDist = 0.
+    return v_cruise, stop_x+self.stopDist
 
 
 if __name__ == "__main__":
