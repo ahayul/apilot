@@ -864,7 +864,7 @@ class LongitudinalMpc:
       self.trafficError = False
       model_x = 1000.0
     ## 신호감속정지중
-    elif self.xState == e2eStop:
+    elif self.xState == XState.e2eStop:
       if carstate.gasPressed:
         self.xState = XState.e2eCruise
         self.e2ePaused = True
