@@ -447,7 +447,7 @@ class LongitudinalMpc:
       self.applyCruiseGap = float(controls.longCruiseGap)
       cruiseGapRatio = interp(controls.longCruiseGap, [1,2,3], [1.1, 1.3, 1.6])
 
-    self.t_follow = max(0.9, cruiseGapRatio * self.tFollowRatio * (2.0 - mySafeModeFactor)) # 0.9아래는 위험하니 적용안함.
+    self.t_follow = max(0.9, cruiseGapRatio * self.tFollowRatio * (2.0 - self.mySafeModeFactor)) # 0.9아래는 위험하니 적용안함.
 
 
     # lead값을 고의로 줄여주면, 빨리 감속, lead값을 늘려주면 빨리가속,
@@ -619,7 +619,7 @@ class LongitudinalMpc:
       if False: #self.trafficStopModelSpeed:
         v_cruise = v[0]
 
-    self.comfort_brake *= mySafeModeFactor
+    self.comfort_brake *= self.mySafeModeFactor
     self.longActiveUser = controls.longActiveUser
     self.cruiseButtonCounter = controls.cruiseButtonCounter
 
@@ -641,7 +641,7 @@ class LongitudinalMpc:
 
     #self.trafficState = 0
     self.debugLongText1 = ""
-    mySafeModeFactor = clip(controls.mySafeModeFactor, 0.5, 1.0)
+    self.mySafeModeFactor = clip(controls.mySafeModeFactor, 0.5, 1.0)
 
     self.status = radarstate.leadOne.status or radarstate.leadTwo.status
 
@@ -653,7 +653,7 @@ class LongitudinalMpc:
     self.comfort_brake = COMFORT_BRAKE
     self.set_weights(prev_accel_constraint=prev_accel_constraint, v_lead0=lead_xv_0[0,1], v_lead1=lead_xv_1[0,1])
 
-    applyStopDistance = self.stopDistance * (2.0 - mySafeModeFactor)
+    applyStopDistance = self.stopDistance * (2.0 - self.mySafeModeFactor)
 
     # To estimate a safe distance from a moving lead, we calculate how much stopping
     # distance that lead needs as a minimum. We can add that to the current distance
