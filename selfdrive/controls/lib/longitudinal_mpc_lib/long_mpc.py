@@ -790,7 +790,8 @@ class LongitudinalMpc:
     stop_x = self.xStopFilter2.process(stop_x)
     return stop_x
 
-  def check_model_stopping(self, carstate, v, v_ego_kph, model_x, y):
+  def check_model_stopping(self, carstate, v, v_ego, model_x, y):
+    v_ego_kph = v_ego * CV.MS_TO_KPH
     model_v = self.vFilter.process(v[-1])
     startSign = model_v > 5.0 or model_v > (v[0]+2)
     if v_ego_kph < 1.0: 
@@ -818,7 +819,7 @@ class LongitudinalMpc:
     self.xStop = self.update_stop_dist(x[-1])
     model_x = self.xStop
     ## 모델의 신호정지 검사
-    self.check_model_stopping(carstate, v, v_ego_kph, self.xStop, y)
+    self.check_model_stopping(carstate, v, v_ego, self.xStop, y)
 
     ## 신호정지 일시정지 해제 검사
     cruiseButtonCounterDiff = controls.cruiseButtonCounter - self.cruiseButtonCounter
