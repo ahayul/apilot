@@ -548,7 +548,7 @@ class LongitudinalMpc:
 
         if self.stopSignCount * DT_MDL > 0.0 and carstate.rightBlinker == False:
            self.trafficState = 1 
-        elif self.startSignCount * DT_MDL > 0.1:
+        elif self.startSignCount * DT_MDL > 0.3: 
            self.trafficState = 2 
 
         if self.xState == XState.e2eStop: # and abs(self.xStop - model_x) < 20.0:
