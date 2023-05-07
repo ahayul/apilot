@@ -441,7 +441,7 @@ class LongitudinalMpc:
     if self.mode == 'acc':
       self.params[:,5] = self.leadDangerFactor #LEAD_DANGER_FACTOR
 
-      v_cruise, stop_x = self.update_apilot2(controls, carstate, radarstate, model, v_ego, v_cruise)
+      v_cruise, stop_x = self.update_apilot(controls, carstate, radarstate, model, v_ego, v_cruise)
 
       x2 = stop_x * np.ones(N+1) + self.trafficStopDistanceAdjust
 
