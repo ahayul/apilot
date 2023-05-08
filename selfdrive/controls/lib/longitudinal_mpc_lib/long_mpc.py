@@ -750,6 +750,8 @@ class LongitudinalMpc:
     self.stopDist -= (v_ego * DT_MDL)
     if self.stopDist < 0:
       self.stopDist = 0.
+    else:
+      self.fakeCruiseDistance += self.stopDist
     return v_cruise, stop_x+self.stopDist
 
 if __name__ == "__main__":
