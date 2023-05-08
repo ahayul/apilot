@@ -1153,6 +1153,7 @@ void DrawApilot::drawLeadApilot(const UIState* s) {
             else if (xState == cereal::LongitudinalPlan::XState::SOFT_HOLD) qstr = "SOFTHOLD";
             else if (xState == cereal::LongitudinalPlan::XState::LEAD) qstr = "LEAD";
             else if (xState == cereal::LongitudinalPlan::XState::E2E_CRUISE) qstr = (v_ego_kph < 80) ? tr("E2ECRUISE") : tr("CRUISE");
+            else if (xState == cereal::LongitudinalPlan::XState::E2E_CRUISE_PREPARE) qstr = "E2EPREPARE";
             else if (xState == cereal::LongitudinalPlan::XState::CRUISE) qstr = tr("CRUISE");
             else qstr = "UNKNOWN";
         }
