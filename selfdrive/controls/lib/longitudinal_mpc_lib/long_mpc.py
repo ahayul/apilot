@@ -440,6 +440,7 @@ class LongitudinalMpc:
     if self.mode == 'acc':
       self.params[:,5] = self.leadDangerFactor #LEAD_DANGER_FACTOR
 
+      self.fakeCruiseDistance = 0.0
       v_cruise, stop_x = self.update_apilot(controls, carstate, radarstate, model, v_ego, v_cruise)
 
       x2 = stop_x * np.ones(N+1) + self.trafficStopDistanceAdjust
@@ -703,8 +704,12 @@ class LongitudinalMpc:
           self.xState = XState.e2eCruise
           self.trafficError = False
       elif v_ego < 0.1:
-        stop_x = 0.0
-        v_cruise = 0.0
+        if cruiseButtonCounterDiff > 0:
+          self.stopDist + 5.0
+          pass
+        else:
+          stop_x = 0.0
+          v_cruise = 0.0
       else:
         self.comfort_brake = COMFORT_BRAKE * self.trafficStopAccel
         self.fakeCruiseDistance = 10.0
