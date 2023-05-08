@@ -440,7 +440,6 @@ class LongitudinalMpc:
     if self.mode == 'acc':
       self.params[:,5] = self.leadDangerFactor #LEAD_DANGER_FACTOR
 
-      self.fakeCruiseDistance = 0.0
       v_cruise, stop_x = self.update_apilot(controls, carstate, radarstate, model, v_ego, v_cruise)
 
       x2 = stop_x * np.ones(N+1) + self.trafficStopDistanceAdjust
@@ -652,6 +651,8 @@ class LongitudinalMpc:
     x = model.position.x
     y = model.position.y
     v = model.velocity.x
+
+    self.fakeCruiseDistance = 0.0
 
     ## 모델의 정지거리 필터링
     self.xStop = self.update_stop_dist(x[-1])
