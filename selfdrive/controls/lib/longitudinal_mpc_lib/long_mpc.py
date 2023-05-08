@@ -288,7 +288,6 @@ class LongitudinalMpc:
     self.xState = XState.cruise
     self.startSignCount = 0
     self.stopSignCount = 0
-    self.longActiveUser_prev = 0
 
     for i in range(N+1):
       self.solver.set(i, 'x', np.zeros(X_DIM))
@@ -656,10 +655,9 @@ class LongitudinalMpc:
       #self.stopSignCount = self.stopSignCount + 1 if stopSign else 0 
 
       # cruise_helper에서 깜박이 켜고 신호감지, 브레이크 크루즈ON을 기동하면... 신호오류와 같이, 크루즈버튼으로 출발해야함.
-      if self.longActiveUser_prev != controls.longActiveUser:
+      if self.longActiveUser != controls.longActiveUser:
         if controls.longActiveUser > 10:
           self.trafficError = True
-        self.longActiveUser_prev = controls.longActiveUser
 
       ## 방금 startSign이 잠깐들어오고 StopSign이 들어오면.... 신호감지 오류...
       if 0.0 < self.startSignCount*DT_MDL < 0.1 and stopSign:
@@ -823,6 +821,11 @@ class LongitudinalMpc:
 
     cruiseButtonCounterDiff = controls.cruiseButtonCounter - self.cruiseButtonCounter
 
+    # cruise_helper에서 깜박이 켜고 신호감지, 브레이크 크루즈ON을 기동하면... 신호오류와 같이, 크루즈버튼으로 출발해야함.
+    if self.longActiveUser != controls.longActiveUser:
+      if controls.longActiveUser > 10:
+        self.trafficError = True
+
     # SOFT_HOLD: 검사
     if carstate.brakePressed and v_ego < 0.1 and self.softHoldMode > 0:  
       self.softHoldTimer += 1
@@ -873,7 +876,7 @@ class LongitudinalMpc:
     ## e2eCruisePrepare 일시정지중
     elif self.xState == XState.e2eCruisePrepare:
       ## 신호정지 일시정지 해제 검사
-      if controls.longActiveUser <= 0 and cruiseButtonCounterDiff != 0: #신호감지무시중 버튼이 눌리면 다시 재개함.
+      if cruiseButtonCounterDiff != 0: #신호감지무시중 버튼이 눌리면 다시 재개함.
         self.xState = XState.e2eCruise
       elif (v_ego_kph > 30.0 and (stop_x > 60.0 and abs(y[-1])<2.0)):
         self.xState = XState.e2eCruise
