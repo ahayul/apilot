@@ -886,6 +886,7 @@ class LongitudinalMpc:
       self.trafficError = False
       if self.status:
         self.xState = XState.lead
+        stop_x = 1000.0
       elif self.trafficState == 1 and not carstate.gasPressed:
         self.buttonStopDist = 0
         self.xState = XState.e2eStop
