@@ -1444,27 +1444,27 @@ void DrawApilot::drawDebugText(UIState* s) {
     char  str[128];
     QString qstr;
 
-    int y = 150, dy = 80;
+    int y = 150, dy = 40;
 
     const int text_x = 1600;
     const auto live_torque_params = sm["liveTorqueParameters"].getLiveTorqueParameters();
     
     sprintf(str, "LT[%.0f]:%s (%.4f/%.4f)", live_torque_params.getTotalBucketPoints(), live_torque_params.getLiveValid() ? "ON" : "OFF", live_torque_params.getLatAccelFactorFiltered(), live_torque_params.getFrictionCoefficientFiltered());
-    ui_draw_text(s, text_x, y, str, 40, COLOR_WHITE, BOLD, 0.0f, 0.0f);
+    ui_draw_text(s, text_x, y, str, 35, COLOR_WHITE, BOLD, 0.0f, 0.0f);
 
     qstr = QString::fromStdString(live_torque_params.getDebugText().cStr());
     y += dy;
-    ui_draw_text(s, text_x, y, qstr.toStdString().c_str(), 40, COLOR_WHITE, BOLD, 0.0f, 0.0f);
+    ui_draw_text(s, text_x, y, qstr.toStdString().c_str(), 35, COLOR_WHITE, BOLD, 0.0f, 0.0f);
 
     const auto lp = sm["longitudinalPlan"].getLongitudinalPlan();
     qstr = QString::fromStdString(lp.getDebugLongText1().cStr());
     y += dy;
-    ui_draw_text(s, text_x, y, qstr.toStdString().c_str(), 40, COLOR_WHITE, BOLD, 0.0f, 0.0f);
+    ui_draw_text(s, text_x, y, qstr.toStdString().c_str(), 35, COLOR_WHITE, BOLD, 0.0f, 0.0f);
     const auto live_params = sm["liveParameters"].getLiveParameters();
     float   liveSteerRatio = live_params.getSteerRatio();
     sprintf(str, "LiveSR = %.2f", liveSteerRatio);
     y += dy;
-    ui_draw_text(s, text_x, y, str, 40, COLOR_WHITE, BOLD, 0.0f, 0.0f);
+    ui_draw_text(s, text_x, y, str, 35, COLOR_WHITE, BOLD, 0.0f, 0.0f);
 
     //auto controls_state = sm["controlsState"].getControlsState();
     //p.drawText(text_x, y + 160, QString::fromStdString(controls_state.getDebugText2().cStr()));
