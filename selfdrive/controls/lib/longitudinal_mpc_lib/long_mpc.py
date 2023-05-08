@@ -248,7 +248,6 @@ class LongitudinalMpc:
     self.xStopFilter = StreamingMovingAverage(3)  #11
     self.xStopFilter2 = StreamingMovingAverage(15) #3
     self.vFilter = StreamingMovingAverage(7)
-    self.buttonStopDist = 0
     self.applyCruiseGap = 1.
     self.applyModelDistOrder = 32
     self.fakeCruiseDistance = 0.0
@@ -706,7 +705,7 @@ class LongitudinalMpc:
           self.trafficError = False
       elif v_ego < 0.1:
         if cruiseButtonCounterDiff > 0:
-          self.stopDist + 5.0
+          self.stopDist += 5.0
           pass
         else:
           stop_x = 0.0
@@ -736,7 +735,6 @@ class LongitudinalMpc:
         self.xState = XState.lead
         stop_x = 1000.0
       elif self.trafficState == 1 and not carstate.gasPressed:
-        self.buttonStopDist = 0
         self.xState = XState.e2eStop
       else:
         self.xState = XState.e2eCruise
