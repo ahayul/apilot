@@ -27,7 +27,7 @@ def create_lkas11(packer, frame, car_fingerprint, send_lfa_mfa, apply_steer, ste
   #                       CAR.SANTA_FE_2022, CAR.KIA_K5_2021, CAR.IONIQ_HEV_2022, CAR.SANTA_FE_HEV_2022,
   #                       CAR.SANTA_FE_PHEV_2022, CAR.KIA_STINGER_2022, CAR.NEXO):
     values["CF_Lkas_LdwsActivemode"] = int(left_lane) + (int(right_lane) << 1)
-    values["CF_Lkas_LdwsOpt_USM"] = 2
+    values["CF_Lkas_LdwsOpt_USM"] = 3
 
     # FcwOpt_USM 5 = Orange blinking car + lanes
     # FcwOpt_USM 4 = Orange car + lanes
@@ -52,7 +52,7 @@ def create_lkas11(packer, frame, car_fingerprint, send_lfa_mfa, apply_steer, ste
     # SysState 3 = green car + lanes, green steering wheel
     # SysState 4 = green car + lanes
     values["CF_Lkas_LdwsSysState"] = 3 if enabled else 1
-    values["CF_Lkas_LdwsOpt_USM"] = 2  # non-2 changes above SysState definition
+    values["CF_Lkas_LdwsOpt_USM"] = 3  # non-2 changes above SysState definition
 
     # these have no effect
     values["CF_Lkas_LdwsActivemode"] = 0
